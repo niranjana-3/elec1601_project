@@ -1,0 +1,22 @@
+insertAndSetFirstWall(&head, 1,  220, 400, 10, 80);
+    insertAndSetFirstWall(&head, 2,  20, 400, 200, 10);
+    insertAndSetFirstWall(&head, 3,  20, 50, 10, 350);
+    insertAndSetFirstWall(&head, 4,  20, 50, 390, 10);
+    insertAndSetFirstWall(&head, 5,  400, 5, 10, 50);
+    insertAndSetFirstWall(&head, 6,  400, 5, 110, 10);
+    insertAndSetFirstWall(&head, 7,  500, 5, 10, 50);
+    insertAndSetFirstWall(&head, 8,  20, 50, 120, 10);
+    insertAndSetFirstWall(&head, 9,  500, 50, 200, 10);
+    
+    insertAndSetFirstWall(&head, 1,  320, 400, 10, 80);
+    insertAndSetFirstWall(&head, 2,  320, 400, 150, 10);
+    insertAndSetFirstWall(&head, 3,  470, 300, 10, 110);
+    insertAndSetFirstWall(&head, 4,  420, 300, 60, 10);
+    insertAndSetFirstWall(&head, 5,  120, 300, 210, 10);
+    insertAndSetFirstWall(&head, 6,  120, 250, 10, 60);
+    insertAndSetFirstWall(&head, 7,  120, 250, 210, 10);
+    insertAndSetFirstWall(&head, 8,  320, 250, 10, 60);
+    insertAndSetFirstWall(&head, 9,  420, 250, 10, 60);
+    insertAndSetFirstWall(&head, 10,  420, 250, 90, 10);
+    insertAndSetFirstWall(&head, 11,  500, 110, 10, 140);
+    insertAndSetFirstWall(&head, 12,  500, 110, 200, 10);
