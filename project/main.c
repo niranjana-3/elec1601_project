@@ -75,8 +75,6 @@ int main(int argc, char *argv[]) {
         // insertAndSetFirstWall(&head, 2,  500, 150, 20, 10);
         // insertAndSetFirstWall(&head, 2,  520, 150, 10, 290);
         // insertAndSetFirstWall(&head, 2,  520, 440, 120, 10);
-
-// //curved walls
 // int i, a, b, c, d, e, f, g, h, k, l, m;
 // double j;
 // a = 300;
@@ -93,37 +91,14 @@ int main(int argc, char *argv[]) {
 // int name_index = 0;
 // for (i = 0; i < m; i++){
 //     j = i;
-//     insertAndSetFirstWall(&head, name_index++,a + b*sin(c*j * M_PI/180),(i * d)+e,10, 10);
-//     insertAndSetFirstWall(&head, name_index++,f + g*sin(h*j * M_PI/180),(i * k)+l,10, 10);
-// }
-
-
-// // //diagonal turns
-// float aa, bb;
-// int name_index = 0;
-// int a = 325;
-// aa = 0.5;
-// bb = 1;
-// int c = 180;
-// int d = 1;
-// int e = a+100;
-// int f = c;
-// c += 50;
-// int m = 200;
-// for (int i = 0; i < m; i++){
-//     if (i < 150) {
-//         insertAndSetFirstWall(&head, name_index++,  a - i*aa , c + i*bb, 10, 10);
-//     }
-//     insertAndSetFirstWall(&head, name_index++,  e - i*aa , f + i*bb, 10, 10);
-// }
-// insertAndSetFirstWall(&head, name_index++, c-m*bb, a-150, 1000, 10);
-// insertAndSetFirstWall(&head, name_index++, c-m*bb, a-100, 305, 10);
-// insertAndSetFirstWall(&head, name_index++,  a - (m-50)*aa , c + (m-50)*bb, 10, 200);
-// insertAndSetFirstWall(&head, name_index++,  e - m*aa , f + m*bb, 10, 200);
-
-
-
-
+//     insertAndSetFirstWall(&head, name_index++,
+//                             a + b*sin(c*j * M_PI/180),
+//                             (i * d)+e,
+//                             10, 10);
+//     insertAndSetFirstWall(&head, name_index++,
+//                             f + g*sin(h*j * M_PI/180),
+//                             (i * k)+l,
+//                             10, 10);
 
     setup_robot(&robot);
     updateAllWalls(head, renderer);
@@ -133,8 +108,6 @@ int main(int argc, char *argv[]) {
     while(!done){
         SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
         SDL_RenderClear(renderer);
-        robot.auto_mode = 1;
-        //making the robot move automatically
 
         //Move robot based on user input commands/auto commands
         if (robot.auto_mode == 1)

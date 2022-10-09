@@ -336,9 +336,9 @@ void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_
         robot->direction = LEFT;
     }
     if (front_centre_sensor == 0 && right_sensor <= 2 && left_sensor <= 2) {
-        // robot->currentSpeed += DEFAULT_SPEED_CHANGE;
-        // if (robot->currentSpeed > MAX_ROBOT_SPEED)
-        //     {robot->currentSpeed = MAX_ROBOT_SPEED;}
+        robot->currentSpeed += DEFAULT_SPEED_CHANGE;
+                if (robot->currentSpeed > MAX_ROBOT_SPEED)
+                    robot->currentSpeed = MAX_ROBOT_SPEED;
             robot->direction = UP;
     }
     else 
@@ -346,7 +346,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_
         //if left side is empty and something on the right side
         if(left_sensor == 0 || right_sensor >=3)
         {
-            robot->currentSpeed = 2;
+            robot->currentSpeed = 
             robot->direction = LEFT;
             
         }
@@ -360,14 +360,25 @@ void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_
             }
             //if something is on all right left and forward then reverse
             else
-            {  
-                //  if (front_centre_sensor == 0)
-            //     {
-            //         robot->direction = UP;
-            //     }
+            {
                 robot->direction = DOWN;
             }
         }
     }
-    
+    // //someting in front and nothing on the right
+    // else if ((robot->currentSpeed>0) && ((front_centre_sensor >= 1) && (right_sensor == 0)) ) {
+    //     robot->direction = RIGHT;
+    // }
+
+    // //starting position
+    // else if ((robot->currentSpeed==0) && ((front_centre_sensor >= 1) && (left_sensor == 0)) ) {
+    //     robot->direction = LEFT;
+    // }
+
+    // else if ((robot->currentSpeed>0) && ((right_sensor >= 1)) ) {
+    //     robot->direction = LEFT;
+    // }
+    // else if ((robot->currentSpeed>0) && ((left_sensor >= 1)) ) {
+    //     robot->direction = RIGHT;
+    // }
 }
