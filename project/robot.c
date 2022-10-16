@@ -328,7 +328,8 @@ void robotMotorMove(struct Robot * robot, int crashed) {
     robot->y = (int) y_offset;
 }
 
-void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_sensor, int right_sensor, int right_prev, int left_prev, int randomBit) {
+void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_sensor, int right_sensor, int right_prev, int left_prev, int randomBit)
+{
     robot->currentSpeed = 0.15*MAX_ROBOT_SPEED;
     
     //printf("Right previous = %d\n" ,right_prev);
@@ -338,17 +339,23 @@ void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_
     
     if (front_centre_sensor == 0 && right_sensor <= 3 && left_sensor <= 3 )
     {
+        //if there is nothing in front and left and right are not dangerously close
 
 
         if (right_prev > 0 && right_sensor == 0)
         {
-        printf("no right wall if entered\n");
-        // robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+            //if there was something sensed by the right sensor before
+            //but now there is nothing then turn right
+         printf("no right wall if entered\n");
+         robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
         robot->direction = RIGHT;
         }
         else if (left_prev > 0 && left_sensor == 0)
         {
-            // robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+            // if threre was something sensed on the left of the robot but its not
+            // there anymore then turn left
+            printf("Left wall lost\n");
+            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
             robot->direction = LEFT;
         }
         else if (front_centre_sensor == 0 && right_sensor ==0 && left_sensor == 0)
@@ -379,14 +386,14 @@ void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_
                 }
             }
         }
-//        else if (front_centre_sensor == 0 && right_sensor >=3 && left_sensor <= 1 )
-//        {
-//            robot->direction = LEFT;
-//        }
-//        else if (front_centre_sensor == 0 && right_sensor <=1 && left_sensor >= 3 )
-//        {
-//            robot->direction = RIGHT;
-//        }
+        else if (front_centre_sensor == 0 && right_sensor >=3 && left_sensor <= 1 )
+        {
+            robot->direction = LEFT;
+        }
+        else if (front_centre_sensor == 0 && right_sensor <=1 && left_sensor >= 3 )
+        {
+            robot->direction = RIGHT;
+        }
 //
         else
         {
@@ -399,25 +406,71 @@ void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_
     {
         if (front_centre_sensor > 0)
         {
-            if(right_sensor < left_sensor)
+            printf("Something in front\n");
+            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+            
+            if(right_sensor <= left_sensor)
             {
+                printf("turning right");
                 robot->direction = RIGHT;
+                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+
             }
-            else
+//            else if (right_sensor == left_sensor)
+//            {
+//                printf("both sides equal keep turning in the same direction reached\n");
+//                robot->direction = robot->direction;
+//                printf("Current direction that is retained: %d", robot->direction);
+//                //look into this
+//            }
+            
+            
+//            if (left_prev > 0 )
+//            {
+//                printf("turning right\n");
+//                robot->direction = RIGHT;
+//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+//
+////
+//            }
+//            else if (right_prev > 0)
+//            {
+//                printf("turning left");
+//                robot->direction = LEFT;
+//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+//            }
+            
+//            else if (right_sensor < left_sensor)
+//            {
+//                printf("else case\n");
+//                robot->direction = RIGHT;
+//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+//
+//            }
+            else if (left_sensor < right_sensor)
             {
+                
+                printf("else case ");
+                printf("turning left");
                 robot->direction = LEFT;
+                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+
             }
         }
         
-        else if (left_sensor > right_sensor)
-            {
-                robot->direction = RIGHT;
-            }
-        else if(right_sensor > left_sensor)
-            {
-                robot->direction = LEFT;
-          
-            }
+//        else if (left_sensor > right_sensor)
+//            {
+//                robot->direction = RIGHT;
+//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+//
+//            }
+//        else if(right_sensor > left_sensor)
+//            {
+//                robot->direction = LEFT;
+//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+//
+//
+//            }
         else
         {
              if (randomBit == 0)
