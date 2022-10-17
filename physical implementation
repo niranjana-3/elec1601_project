@@ -1,0 +1,68 @@
+physical implementation
+// C++ code
+//
+#include <Servo.h>
+
+Servo servoLeft;
+Servo servoRight;
+
+void setup()
+{
+  servoLeft.attach(12);
+  servoRight.attach(13);
+  //forward();
+  //reverse();
+  right();
+ //left();
+  
+}
+
+void forward()
+{
+  servoLeft.writeMicroseconds(1600);
+  servoRight.writeMicroseconds(1400);
+
+ // servoRight.writeMicroseconds(1300);
+  delay(5000);
+  servoLeft.writeMicroseconds(1510);
+  servoRight.writeMicroseconds(1510);
+  //servoRight.writeMicroseconds(1500);
+
+  delay(1000);
+}
+
+void reverse()
+{
+  servoLeft.writeMicroseconds(1400);
+  servoRight.writeMicroseconds(1600);
+  delay(3000);
+  servoLeft.writeMicroseconds(1500);
+  servoRight.writeMicroseconds(1500);
+  delay(1000);
+
+}
+void left()
+{
+  servoLeft.writeMicroseconds(1400);
+  servoRight.writeMicroseconds(1400);
+  delay(300);
+  servoLeft.writeMicroseconds(1510);
+  servoRight.writeMicroseconds(1510);
+  delay(1000);
+
+}
+
+void right()
+{
+  servoLeft.writeMicroseconds(1600);
+  servoRight.writeMicroseconds(1600);
+  delay(300);
+  servoLeft.writeMicroseconds(1510);
+  servoRight.writeMicroseconds(1510);
+  delay(1000);
+
+}
+void loop()
+{
+  
+}
