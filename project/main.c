@@ -1,3 +1,5 @@
+#include "sys/time.h"
+
 #include "stdio.h"
 #include "stdlib.h"
 #include "SDL2/SDL.h"
@@ -11,6 +13,7 @@
 
 int done = 0;
 
+struct timeval start, stop;
 
 int main(int argc, char *argv[]) {
     SDL_Window *window;
@@ -50,31 +53,31 @@ int main(int argc, char *argv[]) {
    insertAndSetFirstWall(&head, 12,  OVERALL_WINDOW_WIDTH/2+200, OVERALL_WINDOW_HEIGHT/2+100, OVERALL_WINDOW_WIDTH/2-100, 10);
 
     // kathy's maze
-//     insertAndSetFirstWall(&head, 1,  220, 400, 10, 80);
-//     insertAndSetFirstWall(&head, 2,  20, 400, 200, 10);
-//     insertAndSetFirstWall(&head, 3,  20, 50, 10, 350);
-//     insertAndSetFirstWall(&head, 4,  20, 50, 390, 10);
-//     insertAndSetFirstWall(&head, 5,  400, 5, 10, 50);
-//     insertAndSetFirstWall(&head, 6,  400, 5, 110, 10);
-//     insertAndSetFirstWall(&head, 7,  500, 5, 10, 50);
-//     insertAndSetFirstWall(&head, 8,  20, 50, 120, 10);
-//     insertAndSetFirstWall(&head, 9,  500, 50, 200, 10);
-//
-//     insertAndSetFirstWall(&head, 1,  320, 400, 10, 80);
-//     insertAndSetFirstWall(&head, 2,  320, 400, 150, 10);
-//     insertAndSetFirstWall(&head, 3,  470, 300, 10, 110);
-//     insertAndSetFirstWall(&head, 4,  420, 300, 60, 10);
-//     insertAndSetFirstWall(&head, 5,  120, 300, 210, 10);
-//     insertAndSetFirstWall(&head, 6,  120, 250, 10, 60);
-//     insertAndSetFirstWall(&head, 7,  120, 250, 210, 10);
-//     insertAndSetFirstWall(&head, 8,  320, 250, 10, 60);
-//     insertAndSetFirstWall(&head, 9,  420, 250, 10, 60);
-//     insertAndSetFirstWall(&head, 10,  420, 250, 90, 10);
-//     insertAndSetFirstWall(&head, 11,  500, 110, 10, 140);
-//     insertAndSetFirstWall(&head, 12,  500, 110, 200, 10);
+    // insertAndSetFirstWall(&head, 1,  220, 400, 10, 80);
+    // insertAndSetFirstWall(&head, 2,  20, 400, 200, 10);
+    // insertAndSetFirstWall(&head, 3,  20, 50, 10, 350);
+    // insertAndSetFirstWall(&head, 4,  20, 50, 390, 10);
+    // insertAndSetFirstWall(&head, 5,  400, 5, 10, 50);
+    // insertAndSetFirstWall(&head, 6,  400, 5, 110, 10);
+    // insertAndSetFirstWall(&head, 7,  500, 5, 10, 50);
+    // insertAndSetFirstWall(&head, 8,  20, 50, 120, 10);
+    // insertAndSetFirstWall(&head, 9,  500, 50, 200, 10);
+
+    // insertAndSetFirstWall(&head, 1,  320, 400, 10, 80);
+    // insertAndSetFirstWall(&head, 2,  320, 400, 150, 10);
+    // insertAndSetFirstWall(&head, 3,  470, 300, 10, 110);
+    // insertAndSetFirstWall(&head, 4,  420, 300, 60, 10);
+    // insertAndSetFirstWall(&head, 5,  120, 300, 210, 10);
+    // insertAndSetFirstWall(&head, 6,  120, 250, 10, 60);
+    // insertAndSetFirstWall(&head, 7,  120, 250, 210, 10);
+    // insertAndSetFirstWall(&head, 8,  320, 250, 10, 60);
+    // insertAndSetFirstWall(&head, 9,  420, 250, 10, 60);
+    // insertAndSetFirstWall(&head, 10,  420, 250, 90, 10);
+    // insertAndSetFirstWall(&head, 11,  500, 110, 10, 140);
+    // insertAndSetFirstWall(&head, 12,  500, 110, 200, 10);
 
     // Maze 1 and 2
-//
+// //
 //         insertAndSetFirstWall(&head, 2,  220, 400, 10, 80);
 //         insertAndSetFirstWall(&head, 2,  20, 400, 200, 10);
 //         insertAndSetFirstWall(&head, 2,  20, 50, 10, 350);
@@ -85,7 +88,7 @@ int main(int argc, char *argv[]) {
 //         insertAndSetFirstWall(&head, 2,  400, 50, 220, 10);
 //         insertAndSetFirstWall(&head, 2,  620, 50, 10, 290);
 //         insertAndSetFirstWall(&head, 2,  620, 340, 20, 10);
-//
+
 //         insertAndSetFirstWall(&head, 1,  320, 300, 10, 180);
 //         insertAndSetFirstWall(&head, 2,  120, 300, 200, 10);
 //         insertAndSetFirstWall(&head, 2,  120, 150, 10, 150);
@@ -200,9 +203,11 @@ int main(int argc, char *argv[]) {
 
         //Check if robot reaches endpoint. and check sensor values
         if (checkRobotReachedEnd(&robot, OVERALL_WINDOW_WIDTH, OVERALL_WINDOW_HEIGHT/2+100, 10, 100)){
-            end_time = clock();
-            printf("Start time %lu, end time %lu\n", start_time, end_time);
-            msec = (end_time-start_time) * 1000 / CLOCKS_PER_SEC;
+            //end_time = clock();
+            gettimeofday(&stop, NULL);
+            //printf("Start time %lu, end time %lu\n", start_time, end_time);
+            //msec = (end_time-start_time) * 1000 / CLOCKS_PER_SEC;
+            msec = (stop.tv_sec - start.tv_sec)*1000 + (stop.tv_usec - start.tv_usec)/1000;
             robotSuccess(&robot, msec);
         }
         else if(crashed == 1 || checkRobotHitWalls(&robot, head)){
@@ -278,7 +283,8 @@ int main(int argc, char *argv[]) {
             }
             if(state[SDL_SCANCODE_RETURN]){
                 robot.auto_mode = 1;
-                start_time = clock();
+                //start_time = clock(); 
+                gettimeofday(&start, NULL);
             }
         }
 
