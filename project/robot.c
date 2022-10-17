@@ -337,11 +337,6 @@ void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_
 {
     robot->currentSpeed = 0.15*MAX_ROBOT_SPEED;
     
-    //printf("Right previous = %d\n" ,right_prev);
-    //printf("Left previous = %d" ,left_prev);
-    
-    // int randomBit = rand() % 2;
-    
     if (front_centre_sensor == 0 && right_sensor <= 3 && left_sensor <= 3 )
     {
         //if there is nothing in front and left and right are not dangerously close
@@ -357,9 +352,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_
         }
         else if (left_prev > 0 && left_sensor == 0)
         {
-            // if threre was something sensed on the left of the robot but its not
-            // there anymore then turn left
-            printf("Left wall lost\n");
+           //left wall lost
             robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
             robot->direction = LEFT;
         }
@@ -373,25 +366,18 @@ void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_
                 printf("no sensor entered, dir - right\n");
                 robot->direction = RIGHT;
                 robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
-
-                // SDL_Delay(50);
-                // robot->direction = UP;
-
             }
             else
             {
                 if (randomBit == 1)
                 {
-//                    if (right_sensor <= 3 && left_sensor <= 3 )
                     printf("no sensor entered dir - left\n");
                     robot->direction = LEFT;
                     robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
 
-                    // SDL_Delay(50);
                 }
                 else
                 {
-//                    if (right_sensor <= 3 && left_sensor <= 3 )
                     robot->direction = UP;
 
                 }
@@ -409,7 +395,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_
             robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
 
         }
-//
+
         else
         {
             if (right_sensor <= 3 && left_sensor <= 3 )
@@ -430,38 +416,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_
                 robot->direction = RIGHT;
                 robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
 
-            }
-//            else if (right_sensor == left_sensor)
-//            {
-//                printf("both sides equal keep turning in the same direction reached\n");
-//                robot->direction = robot->direction;
-//                printf("Current direction that is retained: %d", robot->direction);
-//                //look into this
-//            }
-            
-            
-//            if (left_prev > 0 )
-//            {
-//                printf("turning right\n");
-//                robot->direction = RIGHT;
-//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
-//
-////
-//            }
-//            else if (right_prev > 0)
-//            {
-//                printf("turning left");
-//                robot->direction = LEFT;
-//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
-//            }
-            
-//            else if (right_sensor < left_sensor)
-//            {
-//                printf("else case\n");
-//                robot->direction = RIGHT;
-//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
-//
-//            }
+            }                       
             else if (left_sensor < right_sensor)
             {
                 
@@ -473,19 +428,6 @@ void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_
             }
         }
         
-//        else if (left_sensor > right_sensor)
-//            {
-//                robot->direction = RIGHT;
-//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
-//
-//            }
-//        else if(right_sensor > left_sensor)
-//            {
-//                robot->direction = LEFT;
-//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
-//
-//
-//            }
         else
         {
              if (randomBit == 0)
@@ -501,63 +443,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_
                     robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
 
                 }
-        }
-
-        //if left side is empty and something on the right side
-        // if(left_sensor == 0 || right_sensor >=3)
-        // {
-            
-        //     if (left_sensor > right_sensor)
-        //     {
-        //         robot->direction = RIGHT;
-        //     }
-        //     else if(right_sensor > left_sensor)
-        //     {
-        //         robot->direction = LEFT;
-        //     }
-        //     // robot->currentSpeed = 
-        //     else
-        //     {
-        //         robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
-        //         // robot->direction = LEFT;
-        //         if (randomBit == 0)
-        //         {
-        //             robot->direction = LEFT;
-                    
-        //         }
-        //         else
-        //         {
-        //             robot->direction = RIGHT;
-        //         }
-        //     }
-            
-        // }
-        // //if nothing on the right or something on the left side
-        // else
-        // {   
-        //     if (left_sensor > right_sensor)
-        //     {
-        //         robot->direction = RIGHT;
-        //     }
-        //     else if(right_sensor > left_sensor)
-        //     {
-        //         robot->direction = LEFT;
-        //     }
-        //     //if right side empty or something is on the left side then go right
-        //     else
-        //     {
-        //         if(right_sensor == 0 || left_sensor >= 3)
-        //     {
-        //         robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
-        //         robot->direction = RIGHT;
-        //     }
-        //     //if something is on all right left and forward then reverse
-        //     else
-        //     {
-        //         robot->direction = DOWN;
-        //     }
-        //     }
-        
+        }        
     }
     }
     
