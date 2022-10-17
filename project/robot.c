@@ -4,8 +4,11 @@ void setup_robot(struct Robot *robot){
     robot->x = OVERALL_WINDOW_WIDTH/2-50;
     robot->y = OVERALL_WINDOW_HEIGHT-50;
     
-    robot->true_x = 117;
-    robot->true_y = OVERALL_WINDOW_HEIGHT-100;
+    robot->true_x = OVERALL_WINDOW_WIDTH/2-50;
+    robot->true_y = OVERALL_WINDOW_HEIGHT-50;
+    
+    //robot->true_x = 117;
+    //robot->true_y = OVERALL_WINDOW_HEIGHT-100;
     
 //    //for the curvy maze
 //    robot->true_x = OVERALL_WINDOW_WIDTH/2-110;
