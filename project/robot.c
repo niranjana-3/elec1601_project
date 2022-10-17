@@ -3,8 +3,16 @@
 void setup_robot(struct Robot *robot){
     robot->x = OVERALL_WINDOW_WIDTH/2-50;
     robot->y = OVERALL_WINDOW_HEIGHT-50;
-    robot->true_x = OVERALL_WINDOW_WIDTH/2-50;
-    robot->true_y = OVERALL_WINDOW_HEIGHT-50;
+    
+    robot->true_x = 117;
+    robot->true_y = OVERALL_WINDOW_HEIGHT-100;
+    
+//    //for the curvy maze
+//    robot->true_x = OVERALL_WINDOW_WIDTH/2-110;
+//    robot->true_y = OVERALL_WINDOW_HEIGHT-90;
+    
+//    robot->true_x = OVERALL_WINDOW_WIDTH/2-50;
+//    robot->true_y = OVERALL_WINDOW_HEIGHT-50;
     robot->width = ROBOT_WIDTH;
     robot->height = ROBOT_HEIGHT;
     robot->direction = 0;
@@ -325,68 +333,232 @@ void robotMotorMove(struct Robot * robot, int crashed) {
     robot->y = (int) y_offset;
 }
 
-void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_sensor, int right_sensor, int right_prev, int left_prev) {
-    robot->currentSpeed = 2;
-    printf("Right previous = %d\n" ,right_prev);
-    printf("Left previous = %d" ,left_prev);
+void robotAutoMotorMove(struct Robot * robot, int front_centre_sensor, int left_sensor, int right_sensor, int right_prev, int left_prev, int randomBit)
+{
+    robot->currentSpeed = 0.15*MAX_ROBOT_SPEED;
     
+    //printf("Right previous = %d\n" ,right_prev);
+    //printf("Left previous = %d" ,left_prev);
     
-    if (front_centre_sensor == 0 && right_sensor <= 2 && left_sensor <= 2) {
-        // robot->currentSpeed += DEFAULT_SPEED_CHANGE;
-        //         if (robot->currentSpeed > MAX_ROBOT_SPEED)
-        //             robot->currentSpeed = MAX_ROBOT_SPEED;
-        robot->direction = UP;
-        if (right_prev >= 1 && right_sensor == 0)
+    // int randomBit = rand() % 2;
+    
+    if (front_centre_sensor == 0 && right_sensor <= 3 && left_sensor <= 3 )
     {
-        printf("no right wall if entered\n");
-        robot->direction = RIGHT;
-    }
-    else if (left_prev >= 1 && left_sensor == 0)
-        {
-            robot->direction = LEFT;
-        }
+        //if there is nothing in front and left and right are not dangerously close
 
-        
-    
-    }
-    else 
-    {
-        //if left side is empty and something on the right side
-        if(left_sensor == 0 || right_sensor >=3)
+
+        if (right_prev > 0 && right_sensor == 0)
         {
-            // robot->currentSpeed = 
-            robot->direction = LEFT;
-            
+            //if there was something sensed by the right sensor before
+            //but now there is nothing then turn right
+         printf("no right wall if entered\n");
+         robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+        robot->direction = RIGHT;
         }
-        //if nothing on the right or something on the left side
-        else
+        else if (left_prev > 0 && left_sensor == 0)
         {
-            //if right side empty or something is on the left side then go right
-            if(right_sensor == 0 || left_sensor >= 3)
+            // if threre was something sensed on the left of the robot but its not
+            // there anymore then turn left
+            printf("Left wall lost\n");
+            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+            robot->direction = LEFT;
+        }
+        else if (front_centre_sensor == 0 && right_sensor ==0 && left_sensor == 0)
+        {
+            printf("nothing on either sides or front\nvalue of rand = %d\n", randomBit);
+            printf("value of left_prev = %d\n", left_prev);
+            printf("value of right_prev = %d\n", right_prev);
+            if(randomBit == 0)
             {
+                printf("no sensor entered, dir - right\n");
                 robot->direction = RIGHT;
+                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+
+                // SDL_Delay(50);
+                // robot->direction = UP;
+
             }
-            //if something is on all right left and forward then reverse
             else
             {
-                robot->direction = DOWN;
+                if (randomBit == 1)
+                {
+//                    if (right_sensor <= 3 && left_sensor <= 3 )
+                    printf("no sensor entered dir - left\n");
+                    robot->direction = LEFT;
+                    robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+
+                    // SDL_Delay(50);
+                }
+                else
+                {
+//                    if (right_sensor <= 3 && left_sensor <= 3 )
+                    robot->direction = UP;
+
+                }
             }
         }
+        else if (front_centre_sensor == 0 && right_sensor >=3 && left_sensor <= 1 )
+        {
+            robot->direction = LEFT;
+            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+
+        }
+        else if (front_centre_sensor == 0 && right_sensor <=1 && left_sensor >= 3 )
+        {
+            robot->direction = RIGHT;
+            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+
+        }
+//
+        else
+        {
+            if (right_sensor <= 3 && left_sensor <= 3 )
+            robot->direction = UP;
+        }
     }
-    // //someting in front and nothing on the right
-    // else if ((robot->currentSpeed>0) && ((front_centre_sensor >= 1) && (right_sensor == 0)) ) {
-    //     robot->direction = RIGHT;
-    // }
+    
+    else 
+    {
+        if (front_centre_sensor > 0)
+        {
+            printf("Something in front\n");
+            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+            
+            if(right_sensor <= left_sensor)
+            {
+                printf("turning right");
+                robot->direction = RIGHT;
+                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
 
-    // //starting position
-    // else if ((robot->currentSpeed==0) && ((front_centre_sensor >= 1) && (left_sensor == 0)) ) {
-    //     robot->direction = LEFT;
-    // }
+            }
+//            else if (right_sensor == left_sensor)
+//            {
+//                printf("both sides equal keep turning in the same direction reached\n");
+//                robot->direction = robot->direction;
+//                printf("Current direction that is retained: %d", robot->direction);
+//                //look into this
+//            }
+            
+            
+//            if (left_prev > 0 )
+//            {
+//                printf("turning right\n");
+//                robot->direction = RIGHT;
+//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+//
+////
+//            }
+//            else if (right_prev > 0)
+//            {
+//                printf("turning left");
+//                robot->direction = LEFT;
+//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+//            }
+            
+//            else if (right_sensor < left_sensor)
+//            {
+//                printf("else case\n");
+//                robot->direction = RIGHT;
+//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+//
+//            }
+            else if (left_sensor < right_sensor)
+            {
+                
+                printf("else case ");
+                printf("turning left");
+                robot->direction = LEFT;
+                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
 
-    // else if ((robot->currentSpeed>0) && ((right_sensor >= 1)) ) {
-    //     robot->direction = LEFT;
-    // }
-    // else if ((robot->currentSpeed>0) && ((left_sensor >= 1)) ) {
-    //     robot->direction = RIGHT;
-    // }
-}
+            }
+        }
+        
+//        else if (left_sensor > right_sensor)
+//            {
+//                robot->direction = RIGHT;
+//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+//
+//            }
+//        else if(right_sensor > left_sensor)
+//            {
+//                robot->direction = LEFT;
+//                robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+//
+//
+//            }
+        else
+        {
+             if (randomBit == 0)
+                {
+                    robot->direction = LEFT;
+                    robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+
+                    
+                }
+                else
+                {
+                    robot->direction = RIGHT;
+                    robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+
+                }
+        }
+
+        //if left side is empty and something on the right side
+        // if(left_sensor == 0 || right_sensor >=3)
+        // {
+            
+        //     if (left_sensor > right_sensor)
+        //     {
+        //         robot->direction = RIGHT;
+        //     }
+        //     else if(right_sensor > left_sensor)
+        //     {
+        //         robot->direction = LEFT;
+        //     }
+        //     // robot->currentSpeed = 
+        //     else
+        //     {
+        //         robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+        //         // robot->direction = LEFT;
+        //         if (randomBit == 0)
+        //         {
+        //             robot->direction = LEFT;
+                    
+        //         }
+        //         else
+        //         {
+        //             robot->direction = RIGHT;
+        //         }
+        //     }
+            
+        // }
+        // //if nothing on the right or something on the left side
+        // else
+        // {   
+        //     if (left_sensor > right_sensor)
+        //     {
+        //         robot->direction = RIGHT;
+        //     }
+        //     else if(right_sensor > left_sensor)
+        //     {
+        //         robot->direction = LEFT;
+        //     }
+        //     //if right side empty or something is on the left side then go right
+        //     else
+        //     {
+        //         if(right_sensor == 0 || left_sensor >= 3)
+        //     {
+        //         robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+        //         robot->direction = RIGHT;
+        //     }
+        //     //if something is on all right left and forward then reverse
+        //     else
+        //     {
+        //         robot->direction = DOWN;
+        //     }
+        //     }
+        
+    }
+    }
+    
+
